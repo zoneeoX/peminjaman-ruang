@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String
+  role       Role         @default(USER)
+  Gedung     Gedung[]
+  Ruangan    Ruangan[]
+  Peminjaman Peminjaman[]
+}
+
+model Gedung {
+  id         String    @id @default(uuid())
+  nama       String    @unique
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  created_at DateTime  @default(now())
+  Ruangan    Ruangan[]
+}
+
+model Ruangan {
+  id         String       @id @default(uuid())
+  nama       String       @unique
+  deskripsi  String
+  gedung     Gedung       @relation(fields: [gedungId], references: [id], onDelete: Cascade)
+  author     User         @relation(fields: [authorId], references: [id])
+  authorId   String
+  created_at DateTime     @default(now())
+  gedungId   String
+  Peminjaman Peminjaman[]
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Peminjaman {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  ruangan   Ruangan  @relation(fields: [ruanganId], references: [id], onDelete: Cascade)
+  ruanganId String
+  startTime DateTime
+  endTime   DateTime
+  status    Status   @default(PENDING)
+  alasan    String?
+  catatan   String?
+  createdAt DateTime @default(now())
+}

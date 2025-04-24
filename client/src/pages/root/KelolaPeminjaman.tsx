@@ -34,7 +34,7 @@ const KelolaPeminjaman = () => {
       ID: item.id,
       Email: item.user?.email || "-",
       Ruangan: `"${item.ruangan?.nama || "-"}"`,
-      Gedung: `"${item.ruangan?.gedung?.nama || "-"}"`, 
+      Gedung: `"${item.ruangan?.gedung?.nama || "-"}"`,
       Status: item.status,
       Catatan: item.catatan || "-",
       Mulai: new Date(item.startTime).toLocaleString(),

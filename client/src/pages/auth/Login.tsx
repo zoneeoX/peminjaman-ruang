@@ -45,7 +45,7 @@ const Login = () => {
 
     try {
       await loginUser(user);
-      handleNavigate("/");
+      handleNavigate("/dashboard");
       toast.success("Login berhasil!");
     } catch (error) {
       toast.error("Login gagal.");

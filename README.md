@@ -9,3 +9,5 @@ untuk backend harus membuat .env file yang berisi
  1. DATABASE_URL="postgre://contoh"
  2. PORT=3000
  3. ACCESS_JWT_SECRET="test (bebas)"
+
+dan setelah itu npx prisma migrate (di backend)
